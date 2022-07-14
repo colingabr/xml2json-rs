@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -e 
+
+dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+integration_dir="$(cd "${dir}/../integration" && pwd )"
+json_test_file="${integration_dir}/json.rs"
+xml_test_file="${integration_dir}/xml.rs"
+
+xml_tests=$(node "${dir}/lib/index.js" --mod xml)
+xml_header=$(sed '/=== generated tests ===/q' "$xml_test_file")
+
+echo "$xml_header" > "$xml_test_file"
+echo ""           >> "$xml_test_file"
+echo "$xml_tests" >> "$xml_test_file"
+
+json_tests=$(node "${dir}/lib/index.js" --mod json)
+json_header=$(sed '/=== generated tests ===/q' "$json_test_file")
+
+echo "$json_header" > "$json_test_file"
+echo ""            >> "$json_test_file"
+echo "$json_tests" >> "$json_test_file"
+
+cargo +nightly fmt

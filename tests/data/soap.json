@@ -1,0 +1,47 @@
+{
+  "SOAP-ENV:Envelope": {
+    "$": {
+      "xmlns:SOAP-ENV": "http://schemas.xmlsoap.org/soap/envelope/",
+      "xmlns:ns1": "https://paper-street.soap.com/"
+    },
+    "SOAP-ENV:Body": {
+      "ns1:createWorkflowProof": {
+        "SessionID": [
+          "sid"
+        ],
+        "Stages": [
+          [
+            {
+              "item": {
+                "stage_reviewers": [
+                  {
+                    "item": [
+                      {
+                        "email": "robert.paulson@gmail.com"
+                      }
+                    ]
+                  }
+                ],
+                "name": "Stage 1"
+              }
+            },
+            {
+              "item": {
+                "stage_reviewers": [
+                  {
+                    "item": [
+                      {
+                        "email": "tyler.durden@gmail.com"
+                      }
+                    ]
+                  }
+                ],
+                "name": "Stage 2"
+              }
+            }
+          ]
+        ]
+      }
+    }
+  }
+}
