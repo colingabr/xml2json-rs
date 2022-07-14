@@ -1,4 +1,4 @@
-use xml2json::JsonConfig;
+use xml2json_rs::JsonConfig;
 
 use serde_json::Value as JsonValue;
 

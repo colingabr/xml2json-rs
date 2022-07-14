@@ -1,11 +1,11 @@
 [package]
-name = "xml2json"
-version = "1.0.3"
+name = "xml2json-rs"
+version = "1.0.0"
 authors = ["Colin Gabrielson <colin.gabrielson@gmail.com>"]
 edition = "2018"
 description = "A library for converting to and from XML/JSON"
 license = "MIT"
-repository = "https://github.com/azuqua/xml2json-rs"
+repository = "https://github.com/novcn/xml2json-rs"
 keywords = ["xml", "json", "conversion"]
 categories = ["encoding", "parsing", "text-processing"]
 readme = "README.md"

@@ -9,7 +9,7 @@ A rust library for converting to and from XML and JSON.
 # Install
 
 ``` bash
-λ › cargo add xml2json
+λ › cargo add xml2json-rs
 ```
 
 # Usage

@@ -1,4 +1,4 @@
-use xml2json::{Declaration, Encoding, Indentation, Version, XmlConfig};
+use xml2json_rs::{Declaration, Encoding, Indentation, Version, XmlConfig};
 
 use serde_json::Value as JsonValue;
 

@@ -11,7 +11,7 @@
 //!
 //! ### Example
 //! ```rust
-//! use xml2json::XmlBuilder;
+//! use xml2json_rs::XmlBuilder;
 //! use std::error::Error;
 //!
 //! fn main() -> Result<(), Box<dyn Error>> {
@@ -29,8 +29,8 @@
 //! ### Example
 //!
 //! ```rust
-//! use xml2json::XmlConfig;
-//! use xml2json::{ Indentation, Declaration, Version, Encoding };
+//! use xml2json_rs::XmlConfig;
+//! use xml2json_rs::{ Indentation, Declaration, Version, Encoding };
 //! use std::error::Error;
 //! use indoc::indoc;
 //!
@@ -67,7 +67,7 @@
 //! ## Example
 //!
 //! ```rust
-//! use xml2json::JsonBuilder;
+//! use xml2json_rs::JsonBuilder;
 //! use std::error::Error;
 //!
 //! fn main() -> Result<(), Box<dyn Error>> {
@@ -85,7 +85,7 @@
 //! ## Example
 //!
 //! ```rust
-//! use xml2json::JsonConfig;
+//! use xml2json_rs::JsonConfig;
 //! use std::error::Error;
 //!
 //! fn main() -> Result<(), Box<dyn Error>> {
