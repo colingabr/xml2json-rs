@@ -1,0 +1,21 @@
+{
+  "SOAP-ENV:Envelope": {
+    "$": {
+      "xmlns:SOAP-ENV": "env",
+      "xmlns:ns1": "ns1"
+    },
+    "SOAP-ENV:Body": {
+      "ns1:createWorkflowProof": {
+        "SessionID": [
+          "sid"
+        ],
+        "OwnerID": [
+          "0"
+        ],
+        "Hash": [
+          "browns"
+        ]
+      }
+    }
+  }
+}
