@@ -1,0 +1,18 @@
+{
+  "outer": {
+    "item": [
+      {
+        "_": "This is character data!",
+        "subitem": [
+          "Foo(1)",
+          "Foo(2)",
+          "Foo(3)",
+          "4"
+        ]
+      },
+      "Qux.",
+      "Quux."
+    ]
+  }
+}
+
