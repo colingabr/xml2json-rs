@@ -1,5 +1,5 @@
 [package]
-name = "xml2json-rs"
+name = "xml2json-rs"m
 version = "1.0.1"
 authors = ["Colin Gabrielson <colin.gabrielson@gmail.com>"]
 edition = "2018"

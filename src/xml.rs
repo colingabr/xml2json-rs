@@ -482,6 +482,7 @@ impl XmlBuilder {
       self.write_start_tag(&root_name, root)?;
     }
 
+
     self.traverse(root, Some(root_name.clone()))?;
 
     if explicit_root {
