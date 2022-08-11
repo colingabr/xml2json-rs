@@ -327,19 +327,6 @@ impl XmlBuilder {
     utils::json_is_empty(node)
   }
 
-  // Get outer most object's key
-  fn root_name(&self, node: &JsonValue) -> Result<String, Error> {
-    if let Some(object) = node.as_object() {
-      let (root_name, _) = object
-        .iter()
-        .next()
-        .ok_or_else(|| Error::new(ErrorKind::Syntax, "Could not find root node"))?;
-      Ok(root_name.to_owned())
-    } else {
-      Err(Error::new(ErrorKind::Syntax, "Expected object at JSON root."))
-    }
-  }
-
   // Write XML declaration
   fn write_xml_decl(&mut self) -> Result<(), Error> {
     let mut writer_ref = self.writer.borrow_mut();
@@ -485,7 +472,7 @@ impl XmlBuilder {
   pub fn build_from_json(&mut self, root: &JsonValue) -> Result<String, Error> {
     // As per node-xml2js - if the root name "root" is used, then it is not added to the produced xml
     // document. It's unclear if this is a bug or not. Keeping this behavior for now for parity reasons
-    let explicit_root = self.root_name != *"root";
+    let explicit_root = self.root_name != *"root" || utils::json_object_key_len(root) > 1;
     let root_name = self.root_name.clone();
 
     self.write_xml_decl()?;
@@ -493,16 +480,10 @@ impl XmlBuilder {
     // If an explicit root is set, write that before the root defined in JSON
     if explicit_root {
       self.write_start_tag(&root_name, root)?;
+
     }
 
-    // Write the root defined in JSON
-    let sub_root_name = self.root_name(root)?;
-    let sub_root = &root[&sub_root_name];
-    self.write_start_tag(&sub_root_name, sub_root)?;
-
-    self.traverse(sub_root, Some("root".to_owned()))?;
-
-    self.write_end_tag(&sub_root_name, sub_root)?;
+    self.traverse(root, Some(root_name.clone()))?;
 
     if explicit_root {
       self.write_end_tag(&root_name, root)?;
@@ -569,21 +550,6 @@ mod tests {
     assert!(!is_leaf);
   }
 
-  #[test]
-  fn root_name1() {
-    let builder = XmlBuilder::default();
-    let node = json!({});
-    let result = builder.root_name(&node);
-    assert!(result.is_err());
-  }
-
-  #[test]
-  fn root_name2() {
-    let builder = XmlBuilder::default();
-    let node = serde_json::from_str(r#"{"root":{}}"#).unwrap();
-    let name = builder.root_name(&node).unwrap();
-    assert_eq!(name, "root");
-  }
 
   #[test]
   fn empty_tag1() {
