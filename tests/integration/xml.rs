@@ -1130,6 +1130,256 @@ fn build_lists_root_name_object() {
 }
 
 #[test]
+fn build_multiroot_default() {
+  let object = load_json("tests/data/multiroot.json");
+  let expected = indoc!(
+    r#"
+  <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+  <root>
+    <key1>Value1</key1>
+    <key2>Value2</key2>
+  </root>"#
+  );
+
+  let mut xml_builder = XmlConfig::new()
+    .rendering(Indentation::new(b' ', 2))
+    .decl(Declaration::new(Version::XML10, Some(Encoding::UTF8), Some(true)))
+    .root_name("root")
+    .finalize();
+  let result = xml_builder.build_from_json(&object);
+
+  let actual = result.expect("Error building XML");
+  assert_eq!(expected, actual);
+}
+
+#[test]
+fn build_multiroot_pretty_false() {
+  let object = load_json("tests/data/multiroot.json");
+  let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><root><key1>Value1</key1><key2>Value2</key2></root>";
+
+  let mut xml_builder = XmlConfig::new()
+    .decl(Declaration::new(Version::XML10, Some(Encoding::UTF8), Some(true)))
+    .root_name("root")
+    .finalize();
+  let result = xml_builder.build_from_json(&object);
+
+  let actual = result.expect("Error building XML");
+  assert_eq!(expected, actual);
+}
+
+#[test]
+fn build_multiroot_indent_tab() {
+  let object = load_json("tests/data/multiroot.json");
+  let expected = indoc!(
+    r#"
+  <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+  <root>
+  	<key1>Value1</key1>
+  	<key2>Value2</key2>
+  </root>"#
+  );
+
+  let mut xml_builder = XmlConfig::new()
+    .rendering(Indentation::new(b'\t', 1))
+    .decl(Declaration::new(Version::XML10, Some(Encoding::UTF8), Some(true)))
+    .root_name("root")
+    .finalize();
+  let result = xml_builder.build_from_json(&object);
+
+  let actual = result.expect("Error building XML");
+  assert_eq!(expected, actual);
+}
+
+#[test]
+fn build_multiroot_indent_empty() {
+  let object = load_json("tests/data/multiroot.json");
+  let expected = indoc!(
+    r#"
+  <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+  <root>
+  <key1>Value1</key1>
+  <key2>Value2</key2>
+  </root>"#
+  );
+
+  let mut xml_builder = XmlConfig::new()
+    .rendering(Indentation::new(b' ', 0))
+    .decl(Declaration::new(Version::XML10, Some(Encoding::UTF8), Some(true)))
+    .root_name("root")
+    .finalize();
+  let result = xml_builder.build_from_json(&object);
+
+  let actual = result.expect("Error building XML");
+  assert_eq!(expected, actual);
+}
+
+#[test]
+fn build_multiroot_version_11() {
+  let object = load_json("tests/data/multiroot.json");
+  let expected = indoc!(
+    r#"
+  <?xml version="1.1" encoding="UTF-8" standalone="yes"?>
+  <root>
+    <key1>Value1</key1>
+    <key2>Value2</key2>
+  </root>"#
+  );
+
+  let mut xml_builder = XmlConfig::new()
+    .rendering(Indentation::new(b' ', 2))
+    .decl(Declaration::new(Version::XML11, Some(Encoding::UTF8), Some(true)))
+    .root_name("root")
+    .finalize();
+  let result = xml_builder.build_from_json(&object);
+
+  let actual = result.expect("Error building XML");
+  assert_eq!(expected, actual);
+}
+
+#[test]
+fn build_multiroot_standalone_false() {
+  let object = load_json("tests/data/multiroot.json");
+  let expected = indoc!(
+    r#"
+  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+  <root>
+    <key1>Value1</key1>
+    <key2>Value2</key2>
+  </root>"#
+  );
+
+  let mut xml_builder = XmlConfig::new()
+    .rendering(Indentation::new(b' ', 2))
+    .decl(Declaration::new(Version::XML10, Some(Encoding::UTF8), Some(false)))
+    .root_name("root")
+    .finalize();
+  let result = xml_builder.build_from_json(&object);
+
+  let actual = result.expect("Error building XML");
+  assert_eq!(expected, actual);
+}
+
+#[test]
+fn build_multiroot_root_name_object() {
+  let object = load_json("tests/data/multiroot.json");
+  let expected = indoc!(
+    r#"
+  <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+  <object>
+    <key1>Value1</key1>
+    <key2>Value2</key2>
+  </object>"#
+  );
+
+  let mut xml_builder = XmlConfig::new()
+    .rendering(Indentation::new(b' ', 2))
+    .decl(Declaration::new(Version::XML10, Some(Encoding::UTF8), Some(true)))
+    .root_name("object")
+    .finalize();
+  let result = xml_builder.build_from_json(&object);
+
+  let actual = result.expect("Error building XML");
+  assert_eq!(expected, actual);
+}
+
+#[test]
+fn build_singleroot_default() {
+  let object = load_json("tests/data/singleroot.json");
+  let expected = indoc!(
+    r#"
+  <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+  <foo>bar</foo>"#
+  );
+
+  let mut xml_builder = XmlConfig::new()
+    .rendering(Indentation::new(b' ', 2))
+    .decl(Declaration::new(Version::XML10, Some(Encoding::UTF8), Some(true)))
+    .root_name("root")
+    .finalize();
+  let result = xml_builder.build_from_json(&object);
+
+  let actual = result.expect("Error building XML");
+  assert_eq!(expected, actual);
+}
+
+#[test]
+fn build_singleroot_pretty_false() {
+  let object = load_json("tests/data/singleroot.json");
+  let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><foo>bar</foo>";
+
+  let mut xml_builder = XmlConfig::new()
+    .decl(Declaration::new(Version::XML10, Some(Encoding::UTF8), Some(true)))
+    .root_name("root")
+    .finalize();
+  let result = xml_builder.build_from_json(&object);
+
+  let actual = result.expect("Error building XML");
+  assert_eq!(expected, actual);
+}
+
+#[test]
+fn build_singleroot_version_11() {
+  let object = load_json("tests/data/singleroot.json");
+  let expected = indoc!(
+    r#"
+  <?xml version="1.1" encoding="UTF-8" standalone="yes"?>
+  <foo>bar</foo>"#
+  );
+
+  let mut xml_builder = XmlConfig::new()
+    .rendering(Indentation::new(b' ', 2))
+    .decl(Declaration::new(Version::XML11, Some(Encoding::UTF8), Some(true)))
+    .root_name("root")
+    .finalize();
+  let result = xml_builder.build_from_json(&object);
+
+  let actual = result.expect("Error building XML");
+  assert_eq!(expected, actual);
+}
+
+#[test]
+fn build_singleroot_standalone_false() {
+  let object = load_json("tests/data/singleroot.json");
+  let expected = indoc!(
+    r#"
+  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+  <foo>bar</foo>"#
+  );
+
+  let mut xml_builder = XmlConfig::new()
+    .rendering(Indentation::new(b' ', 2))
+    .decl(Declaration::new(Version::XML10, Some(Encoding::UTF8), Some(false)))
+    .root_name("root")
+    .finalize();
+  let result = xml_builder.build_from_json(&object);
+
+  let actual = result.expect("Error building XML");
+  assert_eq!(expected, actual);
+}
+
+#[test]
+fn build_singleroot_root_name_object() {
+  let object = load_json("tests/data/singleroot.json");
+  let expected = indoc!(
+    r#"
+  <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+  <object>
+    <foo>bar</foo>
+  </object>"#
+  );
+
+  let mut xml_builder = XmlConfig::new()
+    .rendering(Indentation::new(b' ', 2))
+    .decl(Declaration::new(Version::XML10, Some(Encoding::UTF8), Some(true)))
+    .root_name("object")
+    .finalize();
+  let result = xml_builder.build_from_json(&object);
+
+  let actual = result.expect("Error building XML");
+  assert_eq!(expected, actual);
+}
+
+#[test]
 fn build_soap_default() {
   let object = load_json("tests/data/soap.json");
   let expected = indoc!(
